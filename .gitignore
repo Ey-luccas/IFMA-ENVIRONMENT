@@ -1,0 +1,9 @@
+# Dependências
+node_modules/
+
+# Variáveis de ambiente (contém chaves de API)
+.env
+
+# Sistema
+.DS_Store
+Thumbs.db
