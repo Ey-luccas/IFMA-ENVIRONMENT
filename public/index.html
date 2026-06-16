@@ -6,7 +6,7 @@
   <title>IFMA-ENVIRONMENT</title>
   <style>
     /* ============================================================
-       RESET E ESTILOS GLOBAIS
+       RESET
        ============================================================ */
     * {
       margin: 0;
@@ -15,89 +15,1152 @@
     }
 
     body {
-      font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
       background: #ffffff;
       color: #1a1a1a;
       min-height: 100vh;
-      line-height: 1.6;
+      line-height: 1.5;
     }
 
     /* ============================================================
-       TOPO - LOGO
+       HEADER
        ============================================================ */
-    .topo {
-      background: linear-gradient(135deg, #1b5e20, #2e7d32);
-      padding: 24px 20px;
-      text-align: center;
-      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
-    }
-
-    .topo .logo {
+    .header {
       display: flex;
       align-items: center;
-      justify-content: center;
-      gap: 12px;
+      justify-content: space-between;
+      padding: 18px 32px;
+      border-bottom: 1px solid #eaeaea;
+      background: #ffffff;
     }
 
-    .topo .logo .icone-logo {
-      font-size: 2.2rem;
-    }
-
-    .topo h1 {
-      color: #ffffff;
-      font-size: 1.8rem;
-      font-weight: 700;
-      letter-spacing: 1px;
-    }
-
-    .topo p {
-      color: #c8e6c9;
-      font-size: 0.95rem;
-      margin-top: 4px;
-    }
-
-    /* ============================================================
-       CONTEÚDO PRINCIPAL - 2 COLUNAS
-       ============================================================ */
-    .conteudo {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 32px 20px;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 32px;
-      align-items: start;
-    }
-
-    /* ============================================================
-       COLUNA DA ESQUERDA - CAPTURA DA IMAGEM
-       ============================================================ */
-    .coluna-camera {
-      background: #f8fbf8;
-      border-radius: 16px;
-      padding: 28px;
-      border: 1px solid #e8f0e8;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
-    }
-
-    .coluna-camera h2 {
-      font-size: 1.15rem;
-      color: #2e7d32;
-      font-weight: 600;
-      margin-bottom: 20px;
+    .header-left {
       display: flex;
       align-items: center;
       gap: 8px;
     }
 
-    /* --- Área da câmera --- */
-    .area-camera {
+    .header-logo {
+      width: 28px;
+      height: 28px;
+      background: #2e7d32;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .header h1 {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #1a1a1a;
+      letter-spacing: 0.3px;
+    }
+
+    .header-subtitle {
+      font-size: 0.82rem;
+      color: #888;
+    }
+
+    /* ============================================================
+       MAIN LAYOUT - 2 COLUNAS
+       ============================================================ */
+    .main {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 32px 32px 48px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      align-items: start;
+    }
+
+    /* ============================================================
+       COLUNA ESQUERDA - IMAGEM
+       ============================================================ */
+    .panel-title {
+      font-size: 0.82rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      color: #999;
+      margin-bottom: 16px;
+    }
+
+    /* --- Camera --- */
+    .camera-wrapper {
       position: relative;
-      background: #000;
-      border-radius: 12px;
+      background: #f5f5f5;
+      border-radius: 10px;
       overflow: hidden;
       aspect-ratio: 4 / 3;
       display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid #eaeaea;
+    }
+
+    .camera-wrapper video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: none;
+    }
+
+    .camera-wrapper canvas {
+      display: none;
+    }
+
+    .camera-placeholder {
+      text-align: center;
+      color: #bbb;
+      padding: 20px;
+    }
+
+    .camera-placeholder .icon {
+      font-size: 2.4rem;
+      margin-bottom: 6px;
+      opacity: 0.5;
+    }
+
+    .camera-placeholder span {
+      display: block;
+      font-size: 0.85rem;
+    }
+
+    /* --- Preview --- */
+    .preview-wrapper {
+      display: none;
+      margin-top: 14px;
+    }
+
+    .preview-wrapper img {
+      width: 100%;
+      border-radius: 8px;
+      border: 1px solid #eaeaea;
+    }
+
+    /* --- Buttons --- */
+    .btn-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .btn {
+      padding: 8px 18px;
+      border-radius: 6px;
+      font-size: 0.82rem;
+      font-weight: 500;
+      border: 1px solid transparent;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: inherit;
+      background: #f5f5f5;
+      color: #333;
+    }
+
+    .btn:hover {
+      background: #eaeaea;
+    }
+
+    .btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    .btn-primary {
+      background: #2e7d32;
+      color: #fff;
+      border-color: #2e7d32;
+    }
+
+    .btn-primary:hover:not(:disabled) {
+      background: #1b5e20;
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: #2e7d32;
+      border-color: #2e7d32;
+    }
+
+    .btn-secondary:hover:not(:disabled) {
+      background: #f1f8e9;
+    }
+
+    .btn-danger {
+      background: transparent;
+      color: #c62828;
+      border-color: #c62828;
+    }
+
+    .btn-danger:hover:not(:disabled) {
+      background: #ffebee;
+    }
+
+    .btn-sm {
+      padding: 5px 12px;
+      font-size: 0.75rem;
+    }
+
+    /* --- Auto toggle --- */
+    .auto-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 14px;
+      padding: 10px 14px;
+      background: #fafafa;
+      border-radius: 6px;
+      border: 1px solid #eaeaea;
+    }
+
+    .auto-row span {
+      font-size: 0.8rem;
+      color: #666;
+    }
+
+    .toggle {
+      position: relative;
+      width: 38px;
+      height: 20px;
+      flex-shrink: 0;
+    }
+
+    .toggle input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .toggle .slider {
+      position: absolute;
+      inset: 0;
+      background: #ccc;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: 0.25s;
+    }
+
+    .toggle .slider::before {
+      content: '';
+      position: absolute;
+      width: 16px;
+      height: 16px;
+      left: 2px;
+      bottom: 2px;
+      background: #fff;
+      border-radius: 50%;
+      transition: 0.25s;
+    }
+
+    .toggle input:checked + .slider {
+      background: #2e7d32;
+    }
+
+    .toggle input:checked + .slider::before {
+      transform: translateX(18px);
+    }
+
+    /* --- Camera status --- */
+    .camera-status {
+      margin-top: 10px;
+      font-size: 0.78rem;
+      color: #999;
+      min-height: 1.2em;
+    }
+
+    .camera-status.active {
+      color: #2e7d32;
+    }
+
+    .camera-status.waiting {
+      color: #f9a825;
+    }
+
+    .camera-status.analyzing {
+      color: #1565c0;
+    }
+
+    .camera-status.done {
+      color: #2e7d32;
+    }
+
+    /* --- Error message --- */
+    .msg {
+      display: none;
+      padding: 10px 14px;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      margin-bottom: 14px;
+      line-height: 1.4;
+    }
+
+    .msg.error {
+      display: block;
+      background: #ffebee;
+      color: #c62828;
+      border-left: 3px solid #c62828;
+    }
+
+    .msg.success {
+      display: block;
+      background: #e8f5e9;
+      color: #2e7d32;
+      border-left: 3px solid #2e7d32;
+    }
+
+    /* ============================================================
+       COLUNA DIREITA - ANALISE
+       ============================================================ */
+    .result-placeholder {
+      text-align: center;
+      padding: 48px 20px;
+      color: #bbb;
+    }
+
+    .result-placeholder .icon {
+      font-size: 2.4rem;
+      opacity: 0.4;
+      margin-bottom: 8px;
+    }
+
+    .result-placeholder span {
+      font-size: 0.85rem;
+    }
+
+    /* --- Loading --- */
+    .loading {
+      display: none;
+      text-align: center;
+      padding: 40px 20px;
+    }
+
+    .loading .spinner {
+      width: 28px;
+      height: 28px;
+      border: 3px solid #eaeaea;
+      border-top: 3px solid #2e7d32;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      margin: 0 auto 10px;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .loading span {
+      font-size: 0.82rem;
+      color: #666;
+    }
+
+    /* --- Summary panel --- */
+    .summary {
+      display: none;
+    }
+
+    .summary-item {
+      padding: 12px 0;
+      border-bottom: 1px solid #f0f0f0;
+    }
+
+    .summary-item:last-child {
+      border-bottom: none;
+    }
+
+    .summary-label {
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      color: #aaa;
+      margin-bottom: 2px;
+    }
+
+    .summary-value {
+      font-size: 0.95rem;
+      color: #1a1a1a;
+    }
+
+    .summary-value.confidence-high {
+      color: #2e7d32;
+      font-weight: 600;
+    }
+
+    .summary-value.confidence-medium {
+      color: #f9a825;
+      font-weight: 600;
+    }
+
+    .summary-value.confidence-low {
+      color: #c62828;
+      font-weight: 600;
+    }
+
+    .summary-actions {
+      margin-top: 18px;
+    }
+
+    /* ============================================================
+       MODAL
+       ============================================================ */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.4);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal-overlay.open {
+      display: flex;
+    }
+
+    .modal {
+      background: #fff;
+      border-radius: 12px;
+      max-width: 560px;
+      width: 100%;
+      max-height: 85vh;
+      overflow-y: auto;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+      padding: 32px;
+      position: relative;
+      animation: modalIn 0.2s ease;
+    }
+
+    @keyframes modalIn {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 14px;
+      right: 16px;
+      background: none;
+      border: none;
+      font-size: 1.3rem;
+      color: #aaa;
+      cursor: pointer;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-family: inherit;
+      line-height: 1;
+    }
+
+    .modal-close:hover {
+      color: #333;
+      background: #f5f5f5;
+    }
+
+    .modal-title {
+      font-size: 1.15rem;
+      font-weight: 600;
+      color: #1a1a1a;
+      margin-bottom: 20px;
+      padding-right: 28px;
+    }
+
+    .modal-body .field {
+      margin-bottom: 16px;
+    }
+
+    .modal-body .field:last-child {
+      margin-bottom: 0;
+    }
+
+    .modal-body .field-label {
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      color: #aaa;
+      margin-bottom: 3px;
+    }
+
+    .modal-body .field-value {
+      font-size: 0.92rem;
+      color: #1a1a1a;
+      line-height: 1.5;
+    }
+
+    .modal-body .field-value.confidence-high {
+      color: #2e7d32;
+      font-weight: 600;
+    }
+
+    .modal-body .field-value.confidence-medium {
+      color: #f9a825;
+      font-weight: 600;
+    }
+
+    .modal-body .field-value.confidence-low {
+      color: #c62828;
+      font-weight: 600;
+    }
+
+    .modal-body .harm-list {
+      list-style: none;
+      padding: 0;
+    }
+
+    .modal-body .harm-list li {
+      padding: 4px 0 4px 16px;
+      position: relative;
+      font-size: 0.88rem;
+      color: #333;
+    }
+
+    .modal-body .harm-list li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 12px;
+      width: 5px;
+      height: 5px;
+      background: #ccc;
+      border-radius: 50%;
+    }
+
+    .modal-footer {
+      margin-top: 24px;
+      text-align: right;
+    }
+
+    /* ============================================================
+       RESPONSIVO
+       ============================================================ */
+    @media (max-width: 820px) {
+      .main {
+        grid-template-columns: 1fr;
+        gap: 28px;
+        padding: 20px 16px 32px;
+      }
+
+      .header {
+        padding: 14px 16px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+      }
+
+      .modal {
+        padding: 24px 20px;
+        margin: 10px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .btn-row {
+        flex-direction: column;
+      }
+
+      .btn {
+        justify-content: center;
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================================
+       HEADER
+       ============================================================ -->
+  <header class="header">
+    <div class="header-left">
+      <div class="header-logo">IE</div>
+      <h1>IFMA-ENVIRONMENT</h1>
+    </div>
+    <span class="header-subtitle">Analise ambiental de objetos por imagem</span>
+  </header>
+
+  <!-- ============================================================
+       MAIN - 2 COLUNAS
+       ============================================================ -->
+  <main class="main">
+
+    <!-- ===== COLUNA ESQUERDA: IMAGEM DO OBJETO ===== -->
+    <section>
+      <div class="panel-title">Imagem do objeto</div>
+
+      <!-- Mensagens -->
+      <div class="msg" id="message"></div>
+
+      <!-- Câmera -->
+      <div class="camera-wrapper" id="cameraWrapper">
+        <video id="video" autoplay playsinline></video>
+        <canvas id="canvas"></canvas>
+        <div class="camera-placeholder" id="cameraPlaceholder">
+          <div class="icon">&#x1F4F7;</div>
+          <span>Ative a camera para visualizar o objeto</span>
+        </div>
+      </div>
+
+      <!-- Preview -->
+      <div class="preview-wrapper" id="previewWrapper">
+        <img id="previewImg" alt="Preview da imagem capturada" />
+      </div>
+
+      <!-- Botões -->
+      <div class="btn-row">
+        <button class="btn btn-primary" id="btnCamera">Ativar camera</button>
+        <button class="btn btn-secondary" id="btnCapture" disabled>Capturar e analisar</button>
+        <button class="btn" id="btnUpload">Enviar imagem</button>
+        <button class="btn btn-sm" id="btnSwap" style="display:none;">Trocar imagem</button>
+        <input type="file" id="fileInput" accept="image/*" style="display:none" />
+      </div>
+
+      <!-- Auto toggle -->
+      <div class="auto-row" id="autoRow" style="display:none;">
+        <label class="toggle">
+          <input type="checkbox" id="autoToggle" />
+          <span class="slider"></span>
+        </label>
+        <span>Analise automatica (detecta mudancas na camera)</span>
+      </div>
+
+      <!-- Status -->
+      <div class="camera-status" id="cameraStatus"></div>
+    </section>
+
+    <!-- ===== COLUNA DIREITA: RESULTADO ===== -->
+    <section>
+      <div class="panel-title">Analise do objeto</div>
+
+      <!-- Placeholder -->
+      <div class="result-placeholder" id="placeholder">
+        <div class="icon">&#x1F50D;</div>
+        <span>Capture ou envie uma imagem para iniciar a analise.</span>
+      </div>
+
+      <!-- Loading -->
+      <div class="loading" id="loading">
+        <div class="spinner"></div>
+        <span>Analisando imagem com inteligencia artificial...</span>
+      </div>
+
+      <!-- Summary -->
+      <div class="summary" id="summary">
+        <div class="summary-item">
+          <div class="summary-label">Objeto</div>
+          <div class="summary-value" id="sObject">--</div>
+        </div>
+        <div class="summary-item">
+          <div class="summary-label">Material principal</div>
+          <div class="summary-value" id="sMaterial">--</div>
+        </div>
+        <div class="summary-item">
+          <div class="summary-label">Confianca</div>
+          <div class="summary-value" id="sConfidence">--</div>
+        </div>
+        <div class="summary-actions">
+          <button class="btn btn-primary" id="btnDetails">Ver detalhes da analise</button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ============================================================
+       MODAL
+       ============================================================ -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal">
+      <button class="modal-close" id="modalClose">&times;</button>
+      <div class="modal-title">Detalhes da analise</div>
+      <div class="modal-body" id="modalBody"></div>
+      <div class="modal-footer">
+        <button class="btn btn-primary" id="modalCloseBtn">Fechar</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ============================================================
+    // DOM Elements
+    // ============================================================
+    const video = document.getElementById('video');
+    const canvas = document.getElementById('canvas');
+    const cameraPlaceholder = document.getElementById('cameraPlaceholder');
+    const cameraWrapper = document.getElementById('cameraWrapper');
+    const previewWrapper = document.getElementById('previewWrapper');
+    const previewImg = document.getElementById('previewImg');
+    const message = document.getElementById('message');
+
+    const btnCamera = document.getElementById('btnCamera');
+    const btnCapture = document.getElementById('btnCapture');
+    const btnUpload = document.getElementById('btnUpload');
+    const btnSwap = document.getElementById('btnSwap');
+    const fileInput = document.getElementById('fileInput');
+
+    const autoRow = document.getElementById('autoRow');
+    const autoToggle = document.getElementById('autoToggle');
+    const cameraStatus = document.getElementById('cameraStatus');
+
+    const placeholder = document.getElementById('placeholder');
+    const loading = document.getElementById('loading');
+    const summary = document.getElementById('summary');
+
+    const sObject = document.getElementById('sObject');
+    const sMaterial = document.getElementById('sMaterial');
+    const sConfidence = document.getElementById('sConfidence');
+    const btnDetails = document.getElementById('btnDetails');
+
+    const modalOverlay = document.getElementById('modalOverlay');
+    const modalBody = document.getElementById('modalBody');
+    const modalClose = document.getElementById('modalClose');
+    const modalCloseBtn = document.getElementById('modalCloseBtn');
+
+    // ============================================================
+    // State
+    // ============================================================
+    let stream = null;
+    let cameraOn = false;
+    let currentBlob = null;
+    let currentImageData = null; // dataURL for preview
+    let isAnalyzing = false;
+    let lastAnalysisResult = null;
+
+    // Auto-detect state
+    let autoModeEnabled = false;
+    let lastAnalysisTime = 0;
+    let lastFrameSignature = null;
+    let lastAnalyzedSignature = null;
+    let stableFrameCount = 0;
+
+    const AUTO_COOLDOWN_MS = 25000;
+    const FRAME_CHECK_INTERVAL_MS = 1000;
+    const STABILITY_THRESHOLD = 2; // frames
+    const MOTION_THRESHOLD = 20;
+
+    let autoInterval = null;
+
+    // ============================================================
+    // Camera
+    // ============================================================
+    async function startCamera() {
+      try {
+        stream = await navigator.mediaDevices.getUserMedia({
+          video: { width: { ideal: 640 }, height: { ideal: 480 }, facingMode: 'environment' },
+          audio: false,
+        });
+        video.srcObject = stream;
+        cameraOn = true;
+
+        cameraPlaceholder.style.display = 'none';
+        video.style.display = 'block';
+        btnCamera.textContent = 'Camera ativa';
+        btnCamera.disabled = true;
+        btnCapture.disabled = false;
+        autoRow.style.display = 'flex';
+
+        setStatus('active', 'Camera ativa. Posicione o objeto e clique em "Capturar e analisar".');
+        hideMessage();
+      } catch (err) {
+        if (err.name === 'NotAllowedError') {
+          showMessage('error', 'Acesso a camera negado. Use o botao "Enviar imagem" para fazer upload.');
+        } else if (err.name === 'NotFoundError') {
+          showMessage('error', 'Nenhuma camera encontrada no dispositivo.');
+        } else {
+          showMessage('error', 'Erro ao acessar a camera: ' + err.message);
+        }
+      }
+    }
+
+    function stopCamera() {
+      if (stream) {
+        stream.getTracks().forEach(t => t.stop());
+        stream = null;
+      }
+      cameraOn = false;
+      video.style.display = 'none';
+      cameraPlaceholder.style.display = 'block';
+      btnCamera.textContent = 'Ativar camera';
+      btnCamera.disabled = false;
+      btnCapture.disabled = true;
+      autoRow.style.display = 'none';
+      stopAutoDetect();
+      setStatus('', '');
+    }
+
+    function captureFrame() {
+      if (!cameraOn) return null;
+      const ctx = canvas.getContext('2d');
+      canvas.width = video.videoWidth || 640;
+      canvas.height = video.videoHeight || 480;
+      ctx.drawImage(video, 0, 0);
+      return canvas;
+    }
+
+    // ============================================================
+    // Auto-detect (low-res frame comparison)
+    // ============================================================
+    function startAutoDetect() {
+      if (autoInterval) return;
+      autoModeEnabled = true;
+      lastFrameSignature = null;
+      stableFrameCount = 0;
+
+      autoInterval = setInterval(() => {
+        if (!cameraOn || isAnalyzing || !autoModeEnabled) return;
+
+        const now = Date.now();
+        if (now - lastAnalysisTime < AUTO_COOLDOWN_MS) {
+          const remaining = Math.round((AUTO_COOLDOWN_MS - (now - lastAnalysisTime)) / 1000);
+          setStatus('waiting', 'Aguardando cooldown (' + remaining + 's)');
+          return;
+        }
+
+        // Capture low-res frame
+        const ctx = canvas.getContext('2d');
+        canvas.width = video.videoWidth || 640;
+        canvas.height = video.videoHeight || 480;
+        ctx.drawImage(video, 0, 0);
+
+        // Get low-res signature (64x48)
+        const smallCanvas = document.createElement('canvas');
+        smallCanvas.width = 64;
+        smallCanvas.height = 48;
+        const smallCtx = smallCanvas.getContext('2d');
+        smallCtx.drawImage(canvas, 0, 0, 64, 48);
+        const imageData = smallCtx.getImageData(0, 0, 64, 48).data;
+
+        // Create signature
+        const sig = Array.from(imageData).join(',');
+
+        if (lastFrameSignature === null) {
+          lastFrameSignature = sig;
+          setStatus('waiting', 'Aguardando objeto...');
+          return;
+        }
+
+        // Compare with previous frame
+        const diff = computeDiff(lastFrameSignature, sig);
+        lastFrameSignature = sig;
+
+        if (diff > MOTION_THRESHOLD) {
+          stableFrameCount = 0;
+          setStatus('waiting', 'Movimento detectado. Aguardando estabilizacao...');
+        } else {
+          stableFrameCount++;
+          if (stableFrameCount >= STABILITY_THRESHOLD) {
+            // Stable - check if different from last analyzed
+            if (lastAnalyzedSignature) {
+              const changeDiff = computeDiff(lastAnalyzedSignature, sig);
+              if (changeDiff < 8) {
+                setStatus('done', 'Objeto ja analisado. Nenhuma mudanca significativa.');
+                stableFrameCount = 0;
+                return;
+              }
+            }
+            // Trigger analysis
+            setStatus('analyzing', 'Imagem estavel detectada. Analisando...');
+            stableFrameCount = 0;
+            doCaptureAndAnalyze();
+          } else {
+            setStatus('waiting', 'Estabilizando imagem (' + stableFrameCount + '/' + STABILITY_THRESHOLD + ')...');
+          }
+        }
+      }, FRAME_CHECK_INTERVAL_MS);
+    }
+
+    function stopAutoDetect() {
+      if (autoInterval) {
+        clearInterval(autoInterval);
+        autoInterval = null;
+      }
+      autoModeEnabled = false;
+      lastFrameSignature = null;
+      stableFrameCount = 0;
+    }
+
+    function computeDiff(sigA, sigB) {
+      const a = sigA.split(',');
+      const b = sigB.split(',');
+      const len = Math.min(a.length, b.length);
+      let total = 0;
+      for (let i = 0; i < len; i++) {
+        total += Math.abs(parseInt(a[i] || 0) - parseInt(b[i] || 0));
+      }
+      return total / (len || 1);
+    }
+
+    // ============================================================
+    // Capture & Analyze
+    // ============================================================
+    async function doCaptureAndAnalyze() {
+      if (isAnalyzing) return;
+      isAnalyzing = true;
+
+      let blob = null;
+
+      if (cameraOn) {
+        const c = captureFrame();
+        if (!c) { isAnalyzing = false; return; }
+
+        const dataURL = c.toDataURL('image/jpeg', 0.85);
+        previewImg.src = dataURL;
+        previewWrapper.style.display = 'block';
+        currentImageData = dataURL;
+
+        blob = await new Promise(r => c.toBlob(b => r(b), 'image/jpeg', 0.85));
+      } else if (currentBlob) {
+        blob = currentBlob;
+      } else {
+        showMessage('error', 'Nenhuma imagem disponivel. Ative a camera ou envie uma foto.');
+        isAnalyzing = false;
+        return;
+      }
+
+      // Update signature from current frame
+      if (cameraOn) {
+        const ctx = canvas.getContext('2d');
+        const smallC = document.createElement('canvas');
+        smallC.width = 64;
+        smallC.height = 48;
+        const sCtx = smallC.getContext('2d');
+        sCtx.drawImage(canvas, 0, 0, 64, 48);
+        lastAnalyzedSignature = Array.from(sCtx.getImageData(0, 0, 64, 48).data).join(',');
+      }
+
+      setStatus('analyzing', 'Analisando imagem...');
+      await sendToAPI(blob);
+      lastAnalysisTime = Date.now();
+      isAnalyzing = false;
+    }
+
+    // ============================================================
+    // API
+    // ============================================================
+    async function sendToAPI(blob) {
+      placeholder.style.display = 'none';
+      loading.style.display = 'block';
+      summary.style.display = 'none';
+      hideMessage();
+
+      try {
+        const fd = new FormData();
+        fd.append('imagem', blob, 'foto.jpg');
+
+        const resp = await fetch('/analisar', { method: 'POST', body: fd });
+        const data = await resp.json();
+
+        if (!resp.ok) {
+          loading.style.display = 'none';
+          placeholder.style.display = 'block';
+          showMessage('error', data.erro || 'Nao foi possivel analisar a imagem agora.');
+          setStatus('', '');
+          return;
+        }
+
+        const info = data.dados;
+        lastAnalysisResult = info;
+
+        // Update summary
+        sObject.textContent = info.objeto || 'Nao identificado';
+        sMaterial.textContent = info.material_principal || '--';
+
+        const conf = (info.confianca || 'media').toLowerCase();
+        const confLabel = conf.charAt(0).toUpperCase() + conf.slice(1);
+        sConfidence.textContent = confLabel;
+        sConfidence.className = 'summary-value';
+        if (conf === 'alta') sConfidence.classList.add('confidence-high');
+        else if (conf === 'media') sConfidence.classList.add('confidence-medium');
+        else sConfidence.classList.add('confidence-low');
+
+        loading.style.display = 'none';
+        summary.style.display = 'block';
+        setStatus('done', 'Analise concluida. Confira os resultados ao lado.');
+        showMessage('success', 'Analise concluida com sucesso.');
+
+      } catch (err) {
+        loading.style.display = 'none';
+        placeholder.style.display = 'block';
+        showMessage('error', 'Erro de conexao com o servidor. Verifique se ele esta rodando.');
+        setStatus('', '');
+      }
+    }
+
+    // ============================================================
+    // Modal
+    // ============================================================
+    function openModal(info) {
+      if (!info) return;
+
+      const conf = (info.confianca || 'media').toLowerCase();
+      let confClass = 'confidence-medium';
+      if (conf === 'alta') confClass = 'confidence-high';
+      else if (conf === 'baixa') confClass = 'confidence-low';
+
+      let harmsHTML = '';
+      if (info.maleficios_ambientais && info.maleficios_ambientais.length > 0) {
+        harmsHTML = '<ul class="harm-list">';
+        info.maleficios_ambientais.forEach(item => {
+          harmsHTML += '<li>' + item + '</li>';
+        });
+        harmsHTML += '</ul>';
+      } else {
+        harmsHTML = '<span class="field-value">Nao informado</span>';
+      }
+
+      modalBody.innerHTML = `
+        <div class="field">
+          <div class="field-label">Objeto</div>
+          <div class="field-value">${info.objeto || 'Nao identificado'}</div>
+        </div>
+        <div class="field">
+          <div class="field-label">Material principal</div>
+          <div class="field-value">${info.material_principal || '--'}</div>
+        </div>
+        <div class="field">
+          <div class="field-label">Confianca</div>
+          <div class="field-value ${confClass}">${conf.charAt(0).toUpperCase() + conf.slice(1)}</div>
+        </div>
+        <div class="field">
+          <div class="field-label">Tempo estimado de decomposicao</div>
+          <div class="field-value">${info.tempo_decomposicao_estimado || '--'}</div>
+        </div>
+        <div class="field">
+          <div class="field-label">Maleficios ambientais</div>
+          ${harmsHTML}
+        </div>
+        <div class="field">
+          <div class="field-label">Descarte recomendado</div>
+          <div class="field-value">${info.descarte_recomendado || '--'}</div>
+        </div>
+        <div class="field">
+          <div class="field-label">Observacao</div>
+          <div class="field-value">${info.observacao || '--'}</div>
+        </div>
+      `;
+
+      modalOverlay.classList.add('open');
+    }
+
+    function closeModal() {
+      modalOverlay.classList.remove('open');
+    }
+
+    // ============================================================
+    // Helpers
+    // ============================================================
+    function showMessage(type, text) {
+      message.className = 'msg ' + type;
+      message.textContent = text;
+    }
+
+    function hideMessage() {
+      message.className = 'msg';
+      message.textContent = '';
+    }
+
+    function setStatus(type, text) {
+      cameraStatus.className = 'camera-status';
+      if (type) cameraStatus.classList.add(type);
+      cameraStatus.textContent = text || '';
+    }
+
+    // ============================================================
+    // Events
+    // ============================================================
+
+    // Camera
+    btnCamera.addEventListener('click', () => {
+      if (!cameraOn) startCamera();
+    });
+
+    // Capture
+    btnCapture.addEventListener('click', doCaptureAndAnalyze);
+
+    // Upload
+    btnUpload.addEventListener('click', () => fileInput.click());
+
+    fileInput.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      currentBlob = file;
+
+      const reader = new FileReader();
+      reader.onload = (ev) => {
+        previewImg.src = ev.target.result;
+        previewWrapper.style.display = 'block';
+        currentImageData = ev.target.result;
+        btnSwap.style.display = 'inline-block';
+      };
+      reader.readAsDataURL(file);
+
+      if (cameraOn) stopCamera();
+      hideMessage();
+      placeholder.style.display = 'block';
+      loading.style.display = 'none';
+      summary.style.display = 'none';
+      setStatus('', '');
+
+      doCaptureAndAnalyze();
+    });
+
+    // Swap image
+    btnSwap.addEventListener('click', () => {
+      fileInput.click();
+    });
+
+    // Auto toggle
+    autoToggle.addEventListener('change', () => {
+      if (autoToggle.checked) {
+        startAutoDetect();
+      } else {
+        stopAutoDetect();
+        setStatus('active', 'Camera ativa. Modo automatico desligado.');
+      }
+    });
+
+    // Details / Modal
+    btnDetails.addEventListener('click', () => {
+      if (lastAnalysisResult) openModal(lastAnalysisResult);
+    });
+
+    modalClose.addEventListener('click', closeModal);
+    modalCloseBtn.addEventListener('click', closeModal);
+
+    modalOverlay.addEventListener('click', (e) => {
+      if (e.target === modalOverlay) closeModal();
+    });
+
+    // ESC key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeModal();
+    });
+
+    // ============================================================
+    // Server check on load
+    // ============================================================
+    (async function checkServer() {
+      try {
+        const r = await fetch('/status');
+        const s = await r.json();
+        if (!s.api_key_configurada) {
+          showMessage('error', 'Chave da API OpenAI nao configurada. Edite o arquivo .env e reinicie o servidor.');
+        }
+      } catch {
+        showMessage('error', 'Servidor nao encontrado. Execute "npm start" para iniciar.');
+      }
+    })();
+  </script>
+
+</body>
+</html>
       align-items: center;
       justify-content: center;
     }

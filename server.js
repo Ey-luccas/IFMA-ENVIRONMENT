@@ -70,20 +70,13 @@ app.post('/analisar', upload.single('imagem'), async (req, res) => {
 
     // Monta o prompt para a IA (em português do Brasil, estilo escolar)
     const prompt = `
-Analise a imagem enviada.
+Analise a imagem enviada no contexto do projeto IFMA-ENVIRONMENT.
 
-Você faz parte de um projeto escolar chamado IFMA-ENVIRONMENT.
+Identifique o objeto principal da imagem e responda em portugues do Brasil, de forma simples e educativa.
 
-Responda em português do Brasil, de forma simples e educativa.
+Informe o nome do objeto, material principal provavel, tempo estimado de decomposicao no ambiente, principais maleficios ambientais e forma correta de descarte.
 
-Identifique:
-- qual é o objeto da imagem;
-- qual é o material principal provável;
-- quanto tempo ele pode demorar para se decompor no ambiente;
-- quais problemas ele pode causar ao meio ambiente;
-- como ele deve ser descartado corretamente.
-
-Se não tiver certeza sobre o objeto, informe que a confiança é baixa.
+Se nao tiver certeza, reduza o nivel de confianca e explique na observacao.
 `;
 
     // Envia a imagem para a API da OpenAI (modelo GPT-4o que aceita imagens)
@@ -148,8 +141,8 @@ Se não tiver certeza sobre o objeto, informe que a confiança é baixa.
 // ============================================================
 app.listen(PORT, () => {
   console.log('============================================');
-  console.log('  🌿 IFMA-ENVIRONMENT');
+  console.log('  IFMA-ENVIRONMENT');
   console.log('  Servidor rodando em: http://localhost:' + PORT);
-  console.log('  API OpenAI: ' + (apiKeyConfigurada ? '✅ Configurada' : '❌ Não configurada'));
+  console.log('  API OpenAI: ' + (apiKeyConfigurada ? '[OK] Configurada' : '[X] Nao configurada'));
   console.log('============================================');
 });
