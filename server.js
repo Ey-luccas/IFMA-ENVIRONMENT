@@ -50,7 +50,7 @@ app.get('/status', (req, res) => {
 // ============================================================
 // Rota principal: recebe a imagem, analisa com IA e retorna JSON
 // ============================================================
-app.post('/analisar', upload.single('imagem'), async (req, res) => {
+app.post('/analisar', upload.single('foto'), async (req, res) => {
   try {
     // Verifica se a chave da API foi configurada
     if (!apiKeyConfigurada) {
