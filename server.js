@@ -9,7 +9,6 @@ import dotenv from 'dotenv';
 import OpenAI from 'openai';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
-import fs from 'fs';
 
 // Carrega as variáveis de ambiente do arquivo .env
 dotenv.config();
@@ -20,12 +19,18 @@ const PORT = 3000;
 
 // Configura o Multer para receber o upload da imagem
 // A imagem será salva na memória (não no disco)
-const upload = multer({ storage: multer.memoryStorage() });
+const upload = multer({
+  storage: multer.memoryStorage(),
+  // Limite de 10MB para a imagem
+  limits: { fileSize: 10 * 1024 * 1024 },
+});
+
+// Verifica se a chave da API OpenAI foi configurada
+const apiKey = process.env.OPENAI_API_KEY;
+const apiKeyConfigurada = apiKey && apiKey !== 'sua_chave_aqui';
 
 // Configura o cliente da OpenAI com a chave da API
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
+const openai = apiKeyConfigurada ? new OpenAI({ apiKey }) : null;
 
 // Pega o caminho da pasta public para servir os arquivos estáticos
 const __filename = fileURLToPath(import.meta.url);
@@ -33,10 +38,27 @@ const __dirname = dirname(__filename);
 app.use(express.static(join(__dirname, 'public')));
 
 // ============================================================
+// Rota de status: verifica se o servidor e a API estão OK
+// ============================================================
+app.get('/status', (req, res) => {
+  res.json({
+    servidor: 'online',
+    api_key_configurada: apiKeyConfigurada,
+  });
+});
+
+// ============================================================
 // Rota principal: recebe a imagem, analisa com IA e retorna JSON
 // ============================================================
 app.post('/analisar', upload.single('imagem'), async (req, res) => {
   try {
+    // Verifica se a chave da API foi configurada
+    if (!apiKeyConfigurada) {
+      return res.status(401).json({
+        erro: 'Chave da API OpenAI não configurada. Edite o arquivo .env e coloque sua chave.',
+      });
+    }
+
     // Verifica se uma imagem foi enviada
     if (!req.file) {
       return res.status(400).json({ erro: 'Nenhuma imagem enviada.' });
@@ -93,11 +115,30 @@ Se não tiver certeza sobre o objeto, informe que a confiança é baixa.
     const dados = JSON.parse(textoResposta);
 
     // Retorna os dados para o frontend
-    res.json(dados);
+    res.json({
+      sucesso: true,
+      dados: dados,
+    });
   } catch (erro) {
     console.error('Erro ao analisar imagem:', erro);
+
+    // Verifica se o erro é de autenticação da OpenAI
+    if (erro.status === 401) {
+      return res.status(401).json({
+        erro: 'Chave da API OpenAI inválida. Verifique sua chave no arquivo .env.',
+      });
+    }
+
+    // Verifica se o erro é de limite da API
+    if (erro.status === 429) {
+      return res.status(429).json({
+        erro: 'Limite de requisições da API excedido. Tente novamente em alguns instantes.',
+      });
+    }
+
+    // Erro genérico
     res.status(500).json({
-      erro: 'Erro ao analisar a imagem. Verifique sua chave da API OpenAI.',
+      erro: 'Erro ao analisar a imagem. Verifique sua conexão e tente novamente.',
     });
   }
 });
@@ -106,5 +147,9 @@ Se não tiver certeza sobre o objeto, informe que a confiança é baixa.
 // Inicia o servidor
 // ============================================================
 app.listen(PORT, () => {
-  console.log(`✅ Servidor rodando em http://localhost:${PORT}`);
+  console.log('============================================');
+  console.log('  🌿 IFMA-ENVIRONMENT');
+  console.log('  Servidor rodando em: http://localhost:' + PORT);
+  console.log('  API OpenAI: ' + (apiKeyConfigurada ? '✅ Configurada' : '❌ Não configurada'));
+  console.log('============================================');
 });
