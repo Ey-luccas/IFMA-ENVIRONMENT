@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IFMA-ENVIRONMENT</title>
+  <style>
+    /* ===== Estilo geral ===== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+
+    /* ===== Cartão centralizado ===== */
+    .container {
+      background: #ffffff;
+      border-radius: 20px;
+      padding: 40px;
+      max-width: 600px;
+      width: 100%;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+
+    /* ===== Título ===== */
+    h1 {
+      color: #2e7d32;
+      font-size: 2rem;
+      margin-bottom: 8px;
+    }
+
+    .subtitulo {
+      color: #558b2f;
+      font-size: 1rem;
+      margin-bottom: 30px;
+      line-height: 1.5;
+    }
+
+    /* ===== Upload de imagem ===== */
+    .upload-area {
+      border: 2px dashed #a5d6a7;
+      border-radius: 12px;
+      padding: 30px;
+      cursor: pointer;
+      transition: all 0.3s;
+      margin-bottom: 20px;
+    }
+
+    .upload-area:hover {
+      border-color: #2e7d32;
+      background: #f1f8e9;
+    }
+
+    .upload-area input[type="file"] {
+      display: none;
+    }
+
+    .upload-label {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+    }
+
+    .upload-label .icone {
+      font-size: 3rem;
+    }
+
+    .upload-label span {
+      color: #555;
+      font-size: 0.95rem;
+    }
+
+    /* ===== Prévia da imagem ===== */
+    .previa {
+      display: none;
+      margin: 20px 0;
+    }
+
+    .previa img {
+      max-width: 100%;
+      max-height: 300px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    /* ===== Botão ===== */
+    .btn-analisar {
+      background: #2e7d32;
+      color: #fff;
+      border: none;
+      padding: 14px 40px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: background 0.3s;
+      margin-top: 10px;
+      width: 100%;
+    }
+
+    .btn-analisar:hover {
+      background: #1b5e20;
+    }
+
+    .btn-analisar:disabled {
+      background: #a5d6a7;
+      cursor: not-allowed;
+    }
+
+    /* ===== Loading ===== */
+    .loading {
+      display: none;
+      margin: 20px 0;
+      color: #2e7d32;
+      font-weight: 600;
+    }
+
+    .loading::after {
+      content: "⏳";
+      animation: pisca 1s infinite;
+    }
+
+    @keyframes pisca {
+
+      0%,
+      100% {
+        opacity: 1;
+      }
+
+      50% {
+        opacity: 0.3;
+      }
+    }
+
+    /* ===== Resultado ===== */
+    .resultado {
+      display: none;
+      margin-top: 30px;
+      text-align: left;
+      background: #f1f8e9;
+      border-radius: 12px;
+      padding: 24px;
+      border-left: 5px solid #2e7d32;
+    }
+
+    .resultado h2 {
+      color: #2e7d32;
+      font-size: 1.3rem;
+      margin-bottom: 16px;
+      text-align: center;
+    }
+
+    .resultado .campo {
+      margin-bottom: 12px;
+    }
+
+    .resultado .rotulo {
+      font-weight: 700;
+      color: #33691e;
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    .resultado .valor {
+      color: #333;
+    }
+
+    .resultado .maleficios {
+      list-style: disc;
+      padding-left: 20px;
+      color: #333;
+    }
+
+    .resultado .maleficios li {
+      margin-bottom: 4px;
+    }
+
+    .confianca-alta {
+      color: #2e7d32;
+      font-weight: 700;
+    }
+
+    .confianca-media {
+      color: #f9a825;
+      font-weight: 700;
+    }
+
+    .confianca-baixa {
+      color: #c62828;
+      font-weight: 700;
+    }
+
+    /* ===== Erro ===== */
+    .erro {
+      display: none;
+      margin-top: 20px;
+      background: #ffebee;
+      color: #c62828;
+      padding: 16px;
+      border-radius: 12px;
+      font-weight: 600;
+      border-left: 5px solid #c62828;
+    }
+
+    /* ===== Rodapé ===== */
+    .rodape {
+      margin-top: 30px;
+      color: #888;
+      font-size: 0.8rem;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+
+    <!-- Título -->
+    <h1>🌿 IFMA-ENVIRONMENT</h1>
+    <p class="subtitulo">
+      Tire ou envie uma foto de um objeto e descubra<br>
+      seu impacto no meio ambiente!
+    </p>
+
+    <!-- Área de upload -->
+    <div class="upload-area" id="uploadArea">
+      <label class="upload-label" for="inputImagem">
+        <span class="icone">📸</span>
+        <span>Clique aqui para escolher uma foto</span>
+      </label>
+      <input type="file" id="inputImagem" accept="image/*" capture="environment" />
+    </div>
+
+    <!-- Prévia da imagem -->
+    <div class="previa" id="previa">
+      <img id="imgPreview" alt="Prévia da imagem" />
+    </div>
+
+    <!-- Botão -->
+    <button class="btn-analisar" id="btnAnalisar" disabled>
+      🔍 Analisar objeto
+    </button>
+
+    <!-- Loading -->
+    <div class="loading" id="loading">Analisando imagem... </div>
+
+    <!-- Resultado -->
+    <div class="resultado" id="resultado">
+      <h2>📋 Resultado da Análise</h2>
+      <div id="conteudoResultado"></div>
+    </div>
+
+    <!-- Erro -->
+    <div class="erro" id="erro"></div>
+
+    <!-- Rodapé -->
+    <p class="rodape">Projeto Escolar - IFMA</p>
+  </div>
+
+  <script>
+    // ============================================================
+    // Elementos da página
+    // ============================================================
+    const inputImagem = document.getElementById("inputImagem");
+    const uploadArea = document.getElementById("uploadArea");
+    const previa = document.getElementById("previa");
+    const imgPreview = document.getElementById("imgPreview");
+    const btnAnalisar = document.getElementById("btnAnalisar");
+    const loading = document.getElementById("loading");
+    const resultado = document.getElementById("resultado");
+    const conteudoResultado = document.getElementById("conteudoResultado");
+    const erro = document.getElementById("erro");
+
+    let imagemSelecionada = null;
+
+    // ============================================================
+    // Quando o usuário escolhe uma imagem
+    // ============================================================
+    inputImagem.addEventListener("change", function (evento) {
+      const arquivo = evento.target.files[0];
+      if (!arquivo) return;
+
+      imagemSelecionada = arquivo;
+
+      // Mostra a prévia da imagem
+      const leitor = new FileReader();
+      leitor.onload = function (e) {
+        imgPreview.src = e.target.result;
+        previa.style.display = "block";
+        btnAnalisar.disabled = false;
+      };
+      leitor.readAsDataURL(arquivo);
+    });
+
+    // Clica na área de upload para abrir o seletor de arquivos
+    uploadArea.addEventListener("click", function () {
+      inputImagem.click();
+    });
+
+    // ============================================================
+    // Quando clica no botão "Analisar objeto"
+    // ============================================================
+    btnAnalisar.addEventListener("click", async function () {
+      if (!imagemSelecionada) return;
+
+      // Mostra o loading e esconde resultados anteriores
+      loading.style.display = "block";
+      resultado.style.display = "none";
+      erro.style.display = "none";
+      btnAnalisar.disabled = true;
+
+      // Cria o FormData com a imagem
+      const formData = new FormData();
+      formData.append("imagem", imagemSelecionada);
+
+      try {
+        // Envia a imagem para o servidor
+        const resposta = await fetch("/analisar", {
+          method: "POST",
+          body: formData,
+        });
+
+        const dados = await resposta.json();
+
+        // Se deu erro, mostra a mensagem de erro
+        if (!resposta.ok) {
+          mostrarErro(dados.erro || "Erro ao analisar a imagem.");
+          return;
+        }
+
+        // Mostra o resultado na tela
+        mostrarResultado(dados);
+      } catch (err) {
+        mostrarErro("Erro de conexão com o servidor.");
+      } finally {
+        loading.style.display = "none";
+        btnAnalisar.disabled = false;
+      }
+    });
+
+    // ============================================================
+    // Função para mostrar o resultado
+    // ============================================================
+    function mostrarResultado(dados) {
+      // Define a classe de cor conforme a confiança
+      let classeConfianca = "confianca-media";
+      const confianca = (dados.confianca || "").toLowerCase();
+      if (confianca === "alta") classeConfianca = "confianca-alta";
+      else if (confianca === "baixa") classeConfianca = "confianca-baixa";
+
+      // Monta a lista de malefícios
+      let maleficiosHTML = "";
+      if (dados.maleficios_ambientais && dados.maleficios_ambientais.length > 0) {
+        maleficiosHTML = "<ul class='maleficios'>";
+        dados.maleficios_ambientais.forEach(function (item) {
+          maleficiosHTML += "<li>" + item + "</li>";
+        });
+        maleficiosHTML += "</ul>";
+      } else {
+        maleficiosHTML = "<p class='valor'>Não informado</p>";
+      }
+
+      // Monta o HTML do resultado
+      conteudoResultado.innerHTML = `
+        <div class="campo">
+          <span class="rotulo">🔹 Objeto:</span>
+          <span class="valor">${dados.objeto || "Não identificado"}</span>
+        </div>
+        <div class="campo">
+          <span class="rotulo">🔹 Material principal:</span>
+          <span class="valor">${dados.material_principal || "Não informado"}</span>
+        </div>
+        <div class="campo">
+          <span class="rotulo">🔹 Confiança:</span>
+          <span class="valor ${classeConfianca}">${dados.confianca || "Não informado"}</span>
+        </div>
+        <div class="campo">
+          <span class="rotulo">🔹 Tempo de decomposição:</span>
+          <span class="valor">${dados.tempo_decomposicao_estimado || "Não informado"}</span>
+        </div>
+        <div class="campo">
+          <span class="rotulo">🔹 Malefícios ambientais:</span>
+          ${maleficiosHTML}
+        </div>
+        <div class="campo">
+          <span class="rotulo">🔹 Descarte recomendado:</span>
+          <span class="valor">${dados.descarte_recomendado || "Não informado"}</span>
+        </div>
+        <div class="campo">
+          <span class="rotulo">🔹 Observação:</span>
+          <span class="valor">${dados.observacao || ""}</span>
+        </div>
+      `;
+
+      resultado.style.display = "block";
+      // Rola a página para mostrar o resultado
+      resultado.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    // ============================================================
+    // Função para mostrar erro
+    // ============================================================
+    function mostrarErro(mensagem) {
+      erro.textContent = "❌ " + mensagem;
+      erro.style.display = "block";
+    }
+  </script>
+
+</body>
+
+</html>

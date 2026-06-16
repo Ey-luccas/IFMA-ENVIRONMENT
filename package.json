@@ -1,0 +1,23 @@
+{
+  "name": "ifma-environment",
+  "version": "1.0.0",
+  "description": "Projeto escolar para análise ambiental de objetos usando IA",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords": [
+    "ifma",
+    "ambiente",
+    "ia",
+    "openai"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "multer": "^1.4.5-lts.2",
+    "openai": "^4.86.2"
+  }
+}
