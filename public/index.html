@@ -5,14 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>IFMA-ENVIRONMENT</title>
   <style>
-    /* ============================================================
-       RESET
-       ============================================================ */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
       font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
@@ -22,9 +15,7 @@
       line-height: 1.5;
     }
 
-    /* ============================================================
-       HEADER
-       ============================================================ */
+    /* ===== HEADER ===== */
     .header {
       display: flex;
       align-items: center;
@@ -65,9 +56,7 @@
       color: #888;
     }
 
-    /* ============================================================
-       MAIN LAYOUT - 2 COLUNAS
-       ============================================================ */
+    /* ===== MAIN ===== */
     .main {
       max-width: 1100px;
       margin: 0 auto;
@@ -78,9 +67,6 @@
       align-items: start;
     }
 
-    /* ============================================================
-       COLUNA ESQUERDA - IMAGEM
-       ============================================================ */
     .panel-title {
       font-size: 0.82rem;
       font-weight: 600;
@@ -90,7 +76,7 @@
       margin-bottom: 16px;
     }
 
-    /* --- Camera --- */
+    /* ===== LEFT COLUMN ===== */
     .camera-wrapper {
       position: relative;
       background: #f5f5f5;
@@ -110,9 +96,7 @@
       display: none;
     }
 
-    .camera-wrapper canvas {
-      display: none;
-    }
+    .camera-wrapper canvas { display: none; }
 
     .camera-placeholder {
       text-align: center;
@@ -131,19 +115,6 @@
       font-size: 0.85rem;
     }
 
-    /* --- Preview --- */
-    .preview-wrapper {
-      display: none;
-      margin-top: 14px;
-    }
-
-    .preview-wrapper img {
-      width: 100%;
-      border-radius: 8px;
-      border: 1px solid #eaeaea;
-    }
-
-    /* --- Buttons --- */
     .btn-row {
       display: flex;
       flex-wrap: wrap;
@@ -164,14 +135,8 @@
       color: #333;
     }
 
-    .btn:hover {
-      background: #eaeaea;
-    }
-
-    .btn:disabled {
-      opacity: 0.4;
-      cursor: not-allowed;
-    }
+    .btn:hover { background: #eaeaea; }
+    .btn:disabled { opacity: 0.4; cursor: not-allowed; }
 
     .btn-primary {
       background: #2e7d32;
@@ -179,9 +144,7 @@
       border-color: #2e7d32;
     }
 
-    .btn-primary:hover:not(:disabled) {
-      background: #1b5e20;
-    }
+    .btn-primary:hover:not(:disabled) { background: #1b5e20; }
 
     .btn-secondary {
       background: transparent;
@@ -189,26 +152,47 @@
       border-color: #2e7d32;
     }
 
-    .btn-secondary:hover:not(:disabled) {
-      background: #f1f8e9;
+    .btn-secondary:hover:not(:disabled) { background: #f1f8e9; }
+
+    .btn-sm { padding: 5px 12px; font-size: 0.75rem; }
+
+    /* ===== RIGHT COLUMN - PREVIEW ===== */
+    .preview-area {
+      background: #fafafa;
+      border-radius: 10px;
+      border: 1px solid #eaeaea;
+      aspect-ratio: 4 / 3;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
     }
 
-    .btn-danger {
-      background: transparent;
-      color: #c62828;
-      border-color: #c62828;
+    .preview-area img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      border-radius: 10px;
     }
 
-    .btn-danger:hover:not(:disabled) {
-      background: #ffebee;
+    .preview-empty {
+      text-align: center;
+      color: #bbb;
+      padding: 20px;
     }
 
-    .btn-sm {
-      padding: 5px 12px;
-      font-size: 0.75rem;
+    .preview-empty .icon {
+      font-size: 2.4rem;
+      opacity: 0.4;
+      margin-bottom: 6px;
     }
 
-    /* --- Auto toggle --- */
+    .preview-empty span {
+      display: block;
+      font-size: 0.85rem;
+    }
+
+    /* ===== AUTO ROW ===== */
     .auto-row {
       display: flex;
       align-items: center;
@@ -232,11 +216,7 @@
       flex-shrink: 0;
     }
 
-    .toggle input {
-      opacity: 0;
-      width: 0;
-      height: 0;
-    }
+    .toggle input { opacity: 0; width: 0; height: 0; }
 
     .toggle .slider {
       position: absolute;
@@ -259,15 +239,10 @@
       transition: 0.25s;
     }
 
-    .toggle input:checked + .slider {
-      background: #2e7d32;
-    }
+    .toggle input:checked + .slider { background: #2e7d32; }
+    .toggle input:checked + .slider::before { transform: translateX(18px); }
 
-    .toggle input:checked + .slider::before {
-      transform: translateX(18px);
-    }
-
-    /* --- Camera status --- */
+    /* ===== STATUS ===== */
     .camera-status {
       margin-top: 10px;
       font-size: 0.78rem;
@@ -275,23 +250,12 @@
       min-height: 1.2em;
     }
 
-    .camera-status.active {
-      color: #2e7d32;
-    }
+    .camera-status.active { color: #2e7d32; }
+    .camera-status.waiting { color: #f9a825; }
+    .camera-status.analyzing { color: #1565c0; }
+    .camera-status.done { color: #2e7d32; }
 
-    .camera-status.waiting {
-      color: #f9a825;
-    }
-
-    .camera-status.analyzing {
-      color: #1565c0;
-    }
-
-    .camera-status.done {
-      color: #2e7d32;
-    }
-
-    /* --- Error message --- */
+    /* ===== MESSAGE ===== */
     .msg {
       display: none;
       padding: 10px 14px;
@@ -315,101 +279,7 @@
       border-left: 3px solid #2e7d32;
     }
 
-    /* ============================================================
-       COLUNA DIREITA - ANALISE
-       ============================================================ */
-    .result-placeholder {
-      text-align: center;
-      padding: 48px 20px;
-      color: #bbb;
-    }
-
-    .result-placeholder .icon {
-      font-size: 2.4rem;
-      opacity: 0.4;
-      margin-bottom: 8px;
-    }
-
-    .result-placeholder span {
-      font-size: 0.85rem;
-    }
-
-    /* --- Loading --- */
-    .loading {
-      display: none;
-      text-align: center;
-      padding: 40px 20px;
-    }
-
-    .loading .spinner {
-      width: 28px;
-      height: 28px;
-      border: 3px solid #eaeaea;
-      border-top: 3px solid #2e7d32;
-      border-radius: 50%;
-      animation: spin 0.7s linear infinite;
-      margin: 0 auto 10px;
-    }
-
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-
-    .loading span {
-      font-size: 0.82rem;
-      color: #666;
-    }
-
-    /* --- Summary panel --- */
-    .summary {
-      display: none;
-    }
-
-    .summary-item {
-      padding: 12px 0;
-      border-bottom: 1px solid #f0f0f0;
-    }
-
-    .summary-item:last-child {
-      border-bottom: none;
-    }
-
-    .summary-label {
-      font-size: 0.7rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.4px;
-      color: #aaa;
-      margin-bottom: 2px;
-    }
-
-    .summary-value {
-      font-size: 0.95rem;
-      color: #1a1a1a;
-    }
-
-    .summary-value.confidence-high {
-      color: #2e7d32;
-      font-weight: 600;
-    }
-
-    .summary-value.confidence-medium {
-      color: #f9a825;
-      font-weight: 600;
-    }
-
-    .summary-value.confidence-low {
-      color: #c62828;
-      font-weight: 600;
-    }
-
-    .summary-actions {
-      margin-top: 18px;
-    }
-
-    /* ============================================================
-       MODAL
-       ============================================================ */
+    /* ===== MODAL ===== */
     .modal-overlay {
       display: none;
       position: fixed;
@@ -421,9 +291,7 @@
       padding: 20px;
     }
 
-    .modal-overlay.open {
-      display: flex;
-    }
+    .modal-overlay.open { display: flex; }
 
     .modal {
       background: #fff;
@@ -458,10 +326,7 @@
       line-height: 1;
     }
 
-    .modal-close:hover {
-      color: #333;
-      background: #f5f5f5;
-    }
+    .modal-close:hover { color: #333; background: #f5f5f5; }
 
     .modal-title {
       font-size: 1.15rem;
@@ -471,13 +336,8 @@
       padding-right: 28px;
     }
 
-    .modal-body .field {
-      margin-bottom: 16px;
-    }
-
-    .modal-body .field:last-child {
-      margin-bottom: 0;
-    }
+    .modal-body .field { margin-bottom: 16px; }
+    .modal-body .field:last-child { margin-bottom: 0; }
 
     .modal-body .field-label {
       font-size: 0.7rem;
@@ -494,25 +354,11 @@
       line-height: 1.5;
     }
 
-    .modal-body .field-value.confidence-high {
-      color: #2e7d32;
-      font-weight: 600;
-    }
+    .modal-body .field-value.high { color: #2e7d32; font-weight: 600; }
+    .modal-body .field-value.medium { color: #f9a825; font-weight: 600; }
+    .modal-body .field-value.low { color: #c62828; font-weight: 600; }
 
-    .modal-body .field-value.confidence-medium {
-      color: #f9a825;
-      font-weight: 600;
-    }
-
-    .modal-body .field-value.confidence-low {
-      color: #c62828;
-      font-weight: 600;
-    }
-
-    .modal-body .harm-list {
-      list-style: none;
-      padding: 0;
-    }
+    .modal-body .harm-list { list-style: none; padding: 0; }
 
     .modal-body .harm-list li {
       padding: 4px 0 4px 16px;
@@ -532,14 +378,9 @@
       border-radius: 50%;
     }
 
-    .modal-footer {
-      margin-top: 24px;
-      text-align: right;
-    }
+    .modal-footer { margin-top: 24px; text-align: right; }
 
-    /* ============================================================
-       RESPONSIVO
-       ============================================================ */
+    /* ===== RESPONSIVE ===== */
     @media (max-width: 820px) {
       .main {
         grid-template-columns: 1fr;
@@ -554,29 +395,18 @@
         gap: 4px;
       }
 
-      .modal {
-        padding: 24px 20px;
-        margin: 10px;
-      }
+      .modal { padding: 24px 20px; margin: 10px; }
     }
 
     @media (max-width: 480px) {
-      .btn-row {
-        flex-direction: column;
-      }
-
-      .btn {
-        justify-content: center;
-        text-align: center;
-      }
+      .btn-row { flex-direction: column; }
+      .btn { justify-content: center; text-align: center; }
     }
   </style>
 </head>
 <body>
 
-  <!-- ============================================================
-       HEADER
-       ============================================================ -->
+  <!-- ===== HEADER ===== -->
   <header class="header">
     <div class="header-left">
       <div class="header-logo">IE</div>
@@ -585,19 +415,14 @@
     <span class="header-subtitle">Analise ambiental de objetos por imagem</span>
   </header>
 
-  <!-- ============================================================
-       MAIN - 2 COLUNAS
-       ============================================================ -->
+  <!-- ===== MAIN ===== -->
   <main class="main">
 
-    <!-- ===== COLUNA ESQUERDA: IMAGEM DO OBJETO ===== -->
+    <!-- ===== LEFT COLUMN ===== -->
     <section>
       <div class="panel-title">Imagem do objeto</div>
-
-      <!-- Mensagens -->
       <div class="msg" id="message"></div>
 
-      <!-- Câmera -->
       <div class="camera-wrapper" id="cameraWrapper">
         <video id="video" autoplay playsinline></video>
         <canvas id="canvas"></canvas>
@@ -607,12 +432,6 @@
         </div>
       </div>
 
-      <!-- Preview -->
-      <div class="preview-wrapper" id="previewWrapper">
-        <img id="previewImg" alt="Preview da imagem capturada" />
-      </div>
-
-      <!-- Botões -->
       <div class="btn-row">
         <button class="btn btn-primary" id="btnCamera">Ativar camera</button>
         <button class="btn btn-secondary" id="btnCapture" disabled>Capturar e analisar</button>
@@ -621,60 +440,33 @@
         <input type="file" id="fileInput" accept="image/*" style="display:none" />
       </div>
 
-      <!-- Auto toggle -->
       <div class="auto-row" id="autoRow" style="display:none;">
         <label class="toggle">
           <input type="checkbox" id="autoToggle" />
           <span class="slider"></span>
         </label>
-        <span>Analise automatica (detecta mudancas na camera)</span>
+        <span>Modo automatico</span>
       </div>
 
-      <!-- Status -->
       <div class="camera-status" id="cameraStatus"></div>
     </section>
 
-    <!-- ===== COLUNA DIREITA: RESULTADO ===== -->
+    <!-- ===== RIGHT COLUMN ===== -->
     <section>
-      <div class="panel-title">Analise do objeto</div>
+      <div class="panel-title">Previa da imagem</div>
 
-      <!-- Placeholder -->
-      <div class="result-placeholder" id="placeholder">
-        <div class="icon">&#x1F50D;</div>
-        <span>Capture ou envie uma imagem para iniciar a analise.</span>
-      </div>
-
-      <!-- Loading -->
-      <div class="loading" id="loading">
-        <div class="spinner"></div>
-        <span>Analisando imagem com inteligencia artificial...</span>
-      </div>
-
-      <!-- Summary -->
-      <div class="summary" id="summary">
-        <div class="summary-item">
-          <div class="summary-label">Objeto</div>
-          <div class="summary-value" id="sObject">--</div>
-        </div>
-        <div class="summary-item">
-          <div class="summary-label">Material principal</div>
-          <div class="summary-value" id="sMaterial">--</div>
-        </div>
-        <div class="summary-item">
-          <div class="summary-label">Confianca</div>
-          <div class="summary-value" id="sConfidence">--</div>
-        </div>
-        <div class="summary-actions">
-          <button class="btn btn-primary" id="btnDetails">Ver detalhes da analise</button>
+      <div class="preview-area" id="previewArea">
+        <img id="previewImg" alt="Preview da imagem" style="display:none;" />
+        <div class="preview-empty" id="previewEmpty">
+          <div class="icon">&#x1F5BC;</div>
+          <span>Nenhuma imagem selecionada ainda.</span>
         </div>
       </div>
     </section>
 
   </main>
 
-  <!-- ============================================================
-       MODAL
-       ============================================================ -->
+  <!-- ===== MODAL ===== -->
   <div class="modal-overlay" id="modalOverlay">
     <div class="modal">
       <button class="modal-close" id="modalClose">&times;</button>
@@ -693,9 +485,8 @@
     const video = document.getElementById('video');
     const canvas = document.getElementById('canvas');
     const cameraPlaceholder = document.getElementById('cameraPlaceholder');
-    const cameraWrapper = document.getElementById('cameraWrapper');
-    const previewWrapper = document.getElementById('previewWrapper');
     const previewImg = document.getElementById('previewImg');
+    const previewEmpty = document.getElementById('previewEmpty');
     const message = document.getElementById('message');
 
     const btnCamera = document.getElementById('btnCamera');
@@ -708,15 +499,6 @@
     const autoToggle = document.getElementById('autoToggle');
     const cameraStatus = document.getElementById('cameraStatus');
 
-    const placeholder = document.getElementById('placeholder');
-    const loading = document.getElementById('loading');
-    const summary = document.getElementById('summary');
-
-    const sObject = document.getElementById('sObject');
-    const sMaterial = document.getElementById('sMaterial');
-    const sConfidence = document.getElementById('sConfidence');
-    const btnDetails = document.getElementById('btnDetails');
-
     const modalOverlay = document.getElementById('modalOverlay');
     const modalBody = document.getElementById('modalBody');
     const modalClose = document.getElementById('modalClose');
@@ -725,26 +507,26 @@
     // ============================================================
     // State
     // ============================================================
-    let stream = null;
-    let cameraOn = false;
-    let currentBlob = null;
-    let currentImageData = null; // dataURL for preview
-    let isAnalyzing = false;
-    let lastAnalysisResult = null;
+    var stream = null;
+    var cameraOn = false;
+    var currentBlob = null;
+    var isAnalyzing = false;
+    var lastAnalysisResult = null;
+    var modalOpen = false;
 
-    // Auto-detect state
-    let autoModeEnabled = false;
-    let lastAnalysisTime = 0;
-    let lastFrameSignature = null;
-    let lastAnalyzedSignature = null;
-    let stableFrameCount = 0;
+    // Auto-detect
+    var autoModeEnabled = false;
+    var lastAnalysisTime = 0;
+    var lastFrameSignature = null;
+    var lastAnalyzedSignature = null;
+    var stableFrameCount = 0;
 
-    const AUTO_COOLDOWN_MS = 25000;
-    const FRAME_CHECK_INTERVAL_MS = 1000;
-    const STABILITY_THRESHOLD = 2; // frames
-    const MOTION_THRESHOLD = 20;
+    var AUTO_COOLDOWN_MS = 30000;
+    var FRAME_CHECK_INTERVAL_MS = 1000;
+    var REQUIRED_STABLE_FRAMES = 2;
+    var CHANGE_THRESHOLD = 25;
 
-    let autoInterval = null;
+    var autoInterval = null;
 
     // ============================================================
     // Camera
@@ -765,11 +547,11 @@
         btnCapture.disabled = false;
         autoRow.style.display = 'flex';
 
-        setStatus('active', 'Camera ativa. Posicione o objeto e clique em "Capturar e analisar".');
+        setStatus('active', 'Camera ativa');
         hideMessage();
       } catch (err) {
         if (err.name === 'NotAllowedError') {
-          showMessage('error', 'Acesso a camera negado. Use o botao "Enviar imagem" para fazer upload.');
+          showMessage('error', 'Nao foi possivel acessar a camera. Verifique a permissao do navegador.');
         } else if (err.name === 'NotFoundError') {
           showMessage('error', 'Nenhuma camera encontrada no dispositivo.');
         } else {
@@ -780,7 +562,7 @@
 
     function stopCamera() {
       if (stream) {
-        stream.getTracks().forEach(t => t.stop());
+        stream.getTracks().forEach(function(t) { t.stop(); });
         stream = null;
       }
       cameraOn = false;
@@ -791,12 +573,12 @@
       btnCapture.disabled = true;
       autoRow.style.display = 'none';
       stopAutoDetect();
-      setStatus('', '');
+      setStatus('', 'Camera desligada');
     }
 
     function captureFrame() {
       if (!cameraOn) return null;
-      const ctx = canvas.getContext('2d');
+      var ctx = canvas.getContext('2d');
       canvas.width = video.videoWidth || 640;
       canvas.height = video.videoHeight || 480;
       ctx.drawImage(video, 0, 0);
@@ -804,7 +586,22 @@
     }
 
     // ============================================================
-    // Auto-detect (low-res frame comparison)
+    // Preview
+    // ============================================================
+    function showPreview(src) {
+      previewImg.src = src;
+      previewImg.style.display = 'block';
+      previewEmpty.style.display = 'none';
+    }
+
+    function clearPreview() {
+      previewImg.style.display = 'none';
+      previewEmpty.style.display = 'block';
+      previewImg.src = '';
+    }
+
+    // ============================================================
+    // Auto-detect
     // ============================================================
     function startAutoDetect() {
       if (autoInterval) return;
@@ -812,64 +609,57 @@
       lastFrameSignature = null;
       stableFrameCount = 0;
 
-      autoInterval = setInterval(() => {
+      autoInterval = setInterval(function() {
         if (!cameraOn || isAnalyzing || !autoModeEnabled) return;
 
-        const now = Date.now();
+        var now = Date.now();
         if (now - lastAnalysisTime < AUTO_COOLDOWN_MS) {
-          const remaining = Math.round((AUTO_COOLDOWN_MS - (now - lastAnalysisTime)) / 1000);
-          setStatus('waiting', 'Aguardando cooldown (' + remaining + 's)');
+          var rem = Math.round((AUTO_COOLDOWN_MS - (now - lastAnalysisTime)) / 1000);
+          setStatus('waiting', 'Modo automatico - aguardando cooldown (' + rem + 's)');
           return;
         }
 
-        // Capture low-res frame
-        const ctx = canvas.getContext('2d');
+        var ctx = canvas.getContext('2d');
         canvas.width = video.videoWidth || 640;
         canvas.height = video.videoHeight || 480;
         ctx.drawImage(video, 0, 0);
 
-        // Get low-res signature (64x48)
-        const smallCanvas = document.createElement('canvas');
-        smallCanvas.width = 64;
-        smallCanvas.height = 48;
-        const smallCtx = smallCanvas.getContext('2d');
-        smallCtx.drawImage(canvas, 0, 0, 64, 48);
-        const imageData = smallCtx.getImageData(0, 0, 64, 48).data;
-
-        // Create signature
-        const sig = Array.from(imageData).join(',');
+        var small = document.createElement('canvas');
+        small.width = 64;
+        small.height = 48;
+        var sCtx = small.getContext('2d');
+        sCtx.drawImage(canvas, 0, 0, 64, 48);
+        var data = sCtx.getImageData(0, 0, 64, 48).data;
+        var sig = Array.prototype.map.call(data, function(v) { return v; }).join(',');
 
         if (lastFrameSignature === null) {
           lastFrameSignature = sig;
-          setStatus('waiting', 'Aguardando objeto...');
+          setStatus('waiting', 'Modo automatico - aguardando objeto...');
           return;
         }
 
-        // Compare with previous frame
-        const diff = computeDiff(lastFrameSignature, sig);
+        var diff = computeDiff(lastFrameSignature, sig);
         lastFrameSignature = sig;
 
-        if (diff > MOTION_THRESHOLD) {
+        if (diff > CHANGE_THRESHOLD) {
           stableFrameCount = 0;
-          setStatus('waiting', 'Movimento detectado. Aguardando estabilizacao...');
+          setStatus('waiting', 'Modo automatico - movimento detectado, aguardando estabilidade...');
         } else {
           stableFrameCount++;
-          if (stableFrameCount >= STABILITY_THRESHOLD) {
-            // Stable - check if different from last analyzed
+          if (stableFrameCount >= REQUIRED_STABLE_FRAMES) {
             if (lastAnalyzedSignature) {
-              const changeDiff = computeDiff(lastAnalyzedSignature, sig);
-              if (changeDiff < 8) {
-                setStatus('done', 'Objeto ja analisado. Nenhuma mudanca significativa.');
+              var change = computeDiff(lastAnalyzedSignature, sig);
+              if (change < 8) {
+                setStatus('done', 'Modo automatico - objeto ja analisado');
                 stableFrameCount = 0;
                 return;
               }
             }
-            // Trigger analysis
-            setStatus('analyzing', 'Imagem estavel detectada. Analisando...');
+            setStatus('analyzing', 'Novo objeto detectado - analisando...');
             stableFrameCount = 0;
             doCaptureAndAnalyze();
           } else {
-            setStatus('waiting', 'Estabilizando imagem (' + stableFrameCount + '/' + STABILITY_THRESHOLD + ')...');
+            setStatus('waiting', 'Modo automatico - estabilizando (' + stableFrameCount + '/' + REQUIRED_STABLE_FRAMES + ')');
           }
         }
       }, FRAME_CHECK_INTERVAL_MS);
@@ -885,13 +675,13 @@
       stableFrameCount = 0;
     }
 
-    function computeDiff(sigA, sigB) {
-      const a = sigA.split(',');
-      const b = sigB.split(',');
-      const len = Math.min(a.length, b.length);
-      let total = 0;
-      for (let i = 0; i < len; i++) {
-        total += Math.abs(parseInt(a[i] || 0) - parseInt(b[i] || 0));
+    function computeDiff(a, b) {
+      var arrA = a.split(',');
+      var arrB = b.split(',');
+      var len = Math.min(arrA.length, arrB.length);
+      var total = 0;
+      for (var i = 0; i < len; i++) {
+        total += Math.abs(parseInt(arrA[i] || 0) - parseInt(arrB[i] || 0));
       }
       return total / (len || 1);
     }
@@ -900,94 +690,94 @@
     // Capture & Analyze
     // ============================================================
     async function doCaptureAndAnalyze() {
-      if (isAnalyzing) return;
+      if (isAnalyzing) {
+        showMessage('error', 'Uma analise ja esta em andamento. Aguarde.');
+        return;
+      }
       isAnalyzing = true;
 
-      let blob = null;
+      var blob = null;
 
       if (cameraOn) {
-        const c = captureFrame();
+        var c = captureFrame();
         if (!c) { isAnalyzing = false; return; }
 
-        const dataURL = c.toDataURL('image/jpeg', 0.85);
-        previewImg.src = dataURL;
-        previewWrapper.style.display = 'block';
-        currentImageData = dataURL;
+        var dataURL = c.toDataURL('image/jpeg', 0.85);
+        showPreview(dataURL);
 
-        blob = await new Promise(r => c.toBlob(b => r(b), 'image/jpeg', 0.85));
+        blob = await new Promise(function(r) { c.toBlob(function(b) { r(b); }, 'image/jpeg', 0.85); });
       } else if (currentBlob) {
         blob = currentBlob;
       } else {
-        showMessage('error', 'Nenhuma imagem disponivel. Ative a camera ou envie uma foto.');
+        showMessage('error', 'Capture ou envie uma imagem antes de analisar.');
         isAnalyzing = false;
         return;
       }
 
-      // Update signature from current frame
       if (cameraOn) {
-        const ctx = canvas.getContext('2d');
-        const smallC = document.createElement('canvas');
-        smallC.width = 64;
-        smallC.height = 48;
-        const sCtx = smallC.getContext('2d');
+        var ctx = canvas.getContext('2d');
+        var small = document.createElement('canvas');
+        small.width = 64;
+        small.height = 48;
+        var sCtx = small.getContext('2d');
         sCtx.drawImage(canvas, 0, 0, 64, 48);
-        lastAnalyzedSignature = Array.from(sCtx.getImageData(0, 0, 64, 48).data).join(',');
+        lastAnalyzedSignature = Array.prototype.map.call(
+          sCtx.getImageData(0, 0, 64, 48).data,
+          function(v) { return v; }
+        ).join(',');
       }
 
       setStatus('analyzing', 'Analisando imagem...');
+      btnCapture.disabled = true;
+      btnUpload.disabled = true;
+
       await sendToAPI(blob);
+
       lastAnalysisTime = Date.now();
       isAnalyzing = false;
+      if (cameraOn) btnCapture.disabled = false;
+      btnUpload.disabled = false;
     }
 
     // ============================================================
     // API
     // ============================================================
     async function sendToAPI(blob) {
-      placeholder.style.display = 'none';
-      loading.style.display = 'block';
-      summary.style.display = 'none';
       hideMessage();
 
       try {
-        const fd = new FormData();
+        var fd = new FormData();
         fd.append('foto', blob, 'foto.jpg');
 
-        const resp = await fetch('/analisar', { method: 'POST', body: fd });
-        const data = await resp.json();
+        var resp = await fetch('/analisar', { method: 'POST', body: fd });
+        var data = await resp.json();
 
         if (!resp.ok) {
-          loading.style.display = 'none';
-          placeholder.style.display = 'block';
-          showMessage('error', data.erro || 'Nao foi possivel analisar a imagem agora.');
+          var msg = 'Nao foi possivel analisar a imagem agora.';
+          if (resp.status === 429) {
+            msg = 'Limite de requisicoes atingido. Aguarde alguns instantes antes de tentar novamente.';
+          } else if (data.erro) {
+            msg = data.erro;
+          }
+          showMessage('error', msg);
           setStatus('', '');
           return;
         }
 
-        const info = data.dados;
+        var info = data.dados;
         lastAnalysisResult = info;
 
-        // Update summary
-        sObject.textContent = info.objeto || 'Nao identificado';
-        sMaterial.textContent = info.material_principal || '--';
-
-        const conf = (info.confianca || 'media').toLowerCase();
-        const confLabel = conf.charAt(0).toUpperCase() + conf.slice(1);
-        sConfidence.textContent = confLabel;
-        sConfidence.className = 'summary-value';
-        if (conf === 'alta') sConfidence.classList.add('confidence-high');
-        else if (conf === 'media') sConfidence.classList.add('confidence-medium');
-        else sConfidence.classList.add('confidence-low');
-
-        loading.style.display = 'none';
-        summary.style.display = 'block';
-        setStatus('done', 'Analise concluida. Confira os resultados ao lado.');
+        setStatus('done', 'Analise concluida');
         showMessage('success', 'Analise concluida com sucesso.');
 
+        if (modalOpen) {
+          updateModalContent(info);
+        } else {
+          openModal(info);
+        }
+
       } catch (err) {
-        loading.style.display = 'none';
-        placeholder.style.display = 'block';
-        showMessage('error', 'Erro de conexao com o servidor. Verifique se ele esta rodando.');
+        showMessage('error', 'Nao foi possivel analisar a imagem agora.');
         setStatus('', '');
       }
     }
@@ -997,59 +787,62 @@
     // ============================================================
     function openModal(info) {
       if (!info) return;
+      updateModalContent(info);
+      modalOverlay.classList.add('open');
+      modalOpen = true;
+    }
 
-      const conf = (info.confianca || 'media').toLowerCase();
-      let confClass = 'confidence-medium';
-      if (conf === 'alta') confClass = 'confidence-high';
-      else if (conf === 'baixa') confClass = 'confidence-low';
+    function updateModalContent(info) {
+      var conf = (info.confianca || 'media').toLowerCase();
+      var confClass = 'medium';
+      if (conf === 'alta') confClass = 'high';
+      else if (conf === 'baixa') confClass = 'low';
 
-      let harmsHTML = '';
+      var harms = '';
       if (info.maleficios_ambientais && info.maleficios_ambientais.length > 0) {
-        harmsHTML = '<ul class="harm-list">';
-        info.maleficios_ambientais.forEach(item => {
-          harmsHTML += '<li>' + item + '</li>';
-        });
-        harmsHTML += '</ul>';
+        harms = '<ul class="harm-list">';
+        for (var i = 0; i < info.maleficios_ambientais.length; i++) {
+          harms += '<li>' + info.maleficios_ambientais[i] + '</li>';
+        }
+        harms += '</ul>';
       } else {
-        harmsHTML = '<span class="field-value">Nao informado</span>';
+        harms = '<span class="field-value">Nao informado</span>';
       }
 
-      modalBody.innerHTML = `
-        <div class="field">
-          <div class="field-label">Objeto</div>
-          <div class="field-value">${info.objeto || 'Nao identificado'}</div>
-        </div>
-        <div class="field">
-          <div class="field-label">Material principal</div>
-          <div class="field-value">${info.material_principal || '--'}</div>
-        </div>
-        <div class="field">
-          <div class="field-label">Confianca</div>
-          <div class="field-value ${confClass}">${conf.charAt(0).toUpperCase() + conf.slice(1)}</div>
-        </div>
-        <div class="field">
-          <div class="field-label">Tempo estimado de decomposicao</div>
-          <div class="field-value">${info.tempo_decomposicao_estimado || '--'}</div>
-        </div>
-        <div class="field">
-          <div class="field-label">Maleficios ambientais</div>
-          ${harmsHTML}
-        </div>
-        <div class="field">
-          <div class="field-label">Descarte recomendado</div>
-          <div class="field-value">${info.descarte_recomendado || '--'}</div>
-        </div>
-        <div class="field">
-          <div class="field-label">Observacao</div>
-          <div class="field-value">${info.observacao || '--'}</div>
-        </div>
-      `;
-
-      modalOverlay.classList.add('open');
+      modalBody.innerHTML =
+        '<div class="field">' +
+          '<div class="field-label">Objeto</div>' +
+          '<div class="field-value">' + (info.objeto || 'Nao identificado') + '</div>' +
+        '</div>' +
+        '<div class="field">' +
+          '<div class="field-label">Material principal</div>' +
+          '<div class="field-value">' + (info.material_principal || '--') + '</div>' +
+        '</div>' +
+        '<div class="field">' +
+          '<div class="field-label">Confianca</div>' +
+          '<div class="field-value ' + confClass + '">' + (conf.charAt(0).toUpperCase() + conf.slice(1)) + '</div>' +
+        '</div>' +
+        '<div class="field">' +
+          '<div class="field-label">Tempo estimado de decomposicao</div>' +
+          '<div class="field-value">' + (info.tempo_decomposicao_estimado || '--') + '</div>' +
+        '</div>' +
+        '<div class="field">' +
+          '<div class="field-label">Maleficios ambientais</div>' +
+          harms +
+        '</div>' +
+        '<div class="field">' +
+          '<div class="field-label">Descarte recomendado</div>' +
+          '<div class="field-value">' + (info.descarte_recomendado || '--') + '</div>' +
+        '</div>' +
+        '<div class="field">' +
+          '<div class="field-label">Observacao</div>' +
+          '<div class="field-value">' + (info.observacao || '--') + '</div>' +
+        '</div>';
     }
 
     function closeModal() {
       modalOverlay.classList.remove('open');
+      modalOpen = false;
     }
 
     // ============================================================
@@ -1071,89 +864,89 @@
       cameraStatus.textContent = text || '';
     }
 
+    function resetAll() {
+      clearPreview();
+      if (modalOpen) closeModal();
+      lastAnalysisResult = null;
+      currentBlob = null;
+      hideMessage();
+      setStatus('', '');
+    }
+
     // ============================================================
     // Events
     // ============================================================
-
-    // Camera
-    btnCamera.addEventListener('click', () => {
+    btnCamera.addEventListener('click', function() {
       if (!cameraOn) startCamera();
     });
 
-    // Capture
     btnCapture.addEventListener('click', doCaptureAndAnalyze);
 
-    // Upload
-    btnUpload.addEventListener('click', () => fileInput.click());
+    btnUpload.addEventListener('click', function() {
+      fileInput.click();
+    });
 
-    fileInput.addEventListener('change', (e) => {
-      const file = e.target.files[0];
+    fileInput.addEventListener('change', function(e) {
+      var file = e.target.files[0];
       if (!file) return;
 
       currentBlob = file;
 
-      const reader = new FileReader();
-      reader.onload = (ev) => {
-        previewImg.src = ev.target.result;
-        previewWrapper.style.display = 'block';
-        currentImageData = ev.target.result;
+      var reader = new FileReader();
+      reader.onload = function(ev) {
+        showPreview(ev.target.result);
         btnSwap.style.display = 'inline-block';
       };
       reader.readAsDataURL(file);
 
       if (cameraOn) stopCamera();
       hideMessage();
-      placeholder.style.display = 'block';
-      loading.style.display = 'none';
-      summary.style.display = 'none';
-      setStatus('', '');
+      setStatus('', 'Imagem enviada');
 
       doCaptureAndAnalyze();
     });
 
-    // Swap image
-    btnSwap.addEventListener('click', () => {
-      fileInput.click();
+    btnSwap.addEventListener('click', function() {
+      resetAll();
+      btnSwap.style.display = 'none';
+      fileInput.value = '';
     });
 
-    // Auto toggle
-    autoToggle.addEventListener('change', () => {
+    autoToggle.addEventListener('change', function() {
       if (autoToggle.checked) {
         startAutoDetect();
       } else {
         stopAutoDetect();
-        setStatus('active', 'Camera ativa. Modo automatico desligado.');
+        if (cameraOn) setStatus('active', 'Camera ativa. Modo automatico desligado.');
       }
-    });
-
-    // Details / Modal
-    btnDetails.addEventListener('click', () => {
-      if (lastAnalysisResult) openModal(lastAnalysisResult);
     });
 
     modalClose.addEventListener('click', closeModal);
     modalCloseBtn.addEventListener('click', closeModal);
 
-    modalOverlay.addEventListener('click', (e) => {
+    modalOverlay.addEventListener('click', function(e) {
       if (e.target === modalOverlay) closeModal();
     });
 
-    // ESC key
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') closeModal();
+    // Ctrl + X to close modal
+    document.addEventListener('keydown', function(e) {
+      if (e.ctrlKey && e.key === 'x' && modalOpen) {
+        e.preventDefault();
+        closeModal();
+      }
     });
 
     // ============================================================
-    // Server check on load
+    // Server check
     // ============================================================
-    (async function checkServer() {
+    (async function() {
       try {
-        const r = await fetch('/status');
-        const s = await r.json();
+        var r = await fetch('/status');
+        var s = await r.json();
         if (!s.api_key_configurada) {
           showMessage('error', 'Chave da API OpenAI nao configurada. Edite o arquivo .env e reinicie o servidor.');
         }
-      } catch {
+      } catch (err) {
         showMessage('error', 'Servidor nao encontrado. Execute "npm start" para iniciar.');
       }
     })();
